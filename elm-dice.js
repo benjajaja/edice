@@ -70371,15 +70371,15 @@
 					case 'GameRoute':
 						return A2(
 							_elm_lang$core$Basics_ops['++'],
-							'/#',
+							'#',
 							_elm_lang$core$Basics$toString(_p0._0));
 					case 'StaticPageRoute':
 						var _p1 = _p0._0;
-						return '#/static/help';
+						return '#static/help';
 					case 'EditorRoute':
-						return '/#editor';
+						return '#editor';
 					default:
-						return '/#404';
+						return '#404';
 				}
 			}());
 	};
