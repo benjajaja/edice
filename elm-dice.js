@@ -105,7 +105,10 @@
 	});
 
 	app.ports.consoleDebug.subscribe(function(string) {
-	  console.debug(string);
+	  var lines = string.split('\n');
+	  console.groupCollapsed(lines.shift());
+	  console.debug(lines.join('\n'));
+	  console.groupEnd();
 	});
 
 	var mqttConfig = {
@@ -70438,19 +70441,12 @@
 			}
 		});
 	var _user$project$Routing$parseLocation = function (location) {
-		var route = function () {
-			var _p4 = A2(_user$project$UrlParser$parseHash, _user$project$Routing$matchers, location);
-			if (_p4.ctor === 'Just') {
-				return _p4._0;
-			} else {
-				return _user$project$Types$NotFoundRoute;
-			}
-		}();
-		var _p5 = A2(
-			_elm_lang$core$Debug$log,
-			'parseLocation',
-			{ctor: '_Tuple2', _0: location, _1: route});
-		return route;
+		var _p4 = A2(_user$project$UrlParser$parseHash, _user$project$Routing$matchers, location);
+		if (_p4.ctor === 'Just') {
+			return _p4._0;
+		} else {
+			return _user$project$Types$NotFoundRoute;
+		}
 	};
 
 	var _user$project$Maps_Melchor$map = '\n〿　　🔥　🔥　　　　　😺😺\n🍋🍋🍋🔥🔥🔥　　　　😺😺😺\n〿🍋🍋🍋🔥🔥　　　　　😺😺🐵\n　🍋🍋🔥🔥😃😃　　　　😺😺🐵\n〿　🍋💩💩🔥😃😃　🐙🐙😺😺🐵🐵　🚩\n　　💩💩💩😃😃😃🐙🐙🐙😺😺🐵🐵🚩🚩🚩🚩\n〿　　💩💩😃😃😃😃🐙🐙🐙😺🐵🐵🐵🚩🚩🚩🚩\n　　　　　　😃😃🐙🐙🐙🐙😺🐵　🚩🚩🚩\n〿　　　　　　🐸🐸🐙🐸🍺🍺🐵🐵　🚩🚩🚩\n　　　　　　　🐸🐸🐸🍺🍺🍺🌵🌵🚩🚩🚬\n〿　　　　　　🐸🐸🐸🐸🍺🍺🌵🌵🌵🚩🚬🚬\n　　　　　　　🐸🐸🍺🍺🍺🌵🌵🌵🚬🚬🚬🚬🚶\n〿　　　　　　　　　🍺🍺🌵🌵🌵🌵🚬🚬　　🚶\n　　　　　　　　　🍺🍺　🌵🌵🌵🚶🚶🚶🚶🚶\n〿　　　　　　　　　　　　　　　🚶🚶🚶🚶🚶\n　　　　　　　　　　　　　　　　🚶🚶🚶\n';
@@ -70768,8 +70764,8 @@
 					return _elm_lang$core$Native_Utils.crashCase(
 						'Maps',
 						{
-							start: {line: 127, column: 5},
-							end: {line: 137, column: 20}
+							start: {line: 124, column: 5},
+							end: {line: 134, column: 20}
 						},
 						_p3)('bad deduping');
 				}
@@ -70881,12 +70877,9 @@
 				},
 				lines));
 		var width = A2(
-			_elm_lang$core$Debug$log,
-			'max width',
-			A2(
-				_elm_lang$core$Maybe$withDefault,
-				0,
-				_elm_lang$core$List$maximum(widths)));
+			_elm_lang$core$Maybe$withDefault,
+			0,
+			_elm_lang$core$List$maximum(widths));
 		var lands = A2(
 			_elm_lang$core$List$map,
 			function (l) {
@@ -70911,7 +70904,7 @@
 		var cmd = _user$project$Helpers$consoleDebug(
 			A2(
 				_elm_lang$core$Basics_ops['++'],
-				'lines:',
+				'Emoji map',
 				A2(
 					_elm_lang$core$String$join,
 					_elm_lang$core$String$fromChar(
@@ -70925,7 +70918,6 @@
 								A2(_elm_lang$core$List$map, _elm_lang$core$Tuple$second, l));
 						},
 						lines))));
-		var _p12 = A2(_elm_lang$core$Debug$log, 'load!', table);
 		return {
 			ctor: '_Tuple2',
 			_0: A3(
@@ -72029,7 +72021,6 @@
 					if ((((_p10.ctor === '::') && (_p10._1.ctor === '::')) && (_p10._1._1.ctor === '::')) && (_p10._1._1._1.ctor === '[]')) {
 						var user = _user$project$Types$Logged(
 							{email: _p10._0, name: _p10._1._0, picture: _p10._1._1._0});
-						var _p11 = A2(_elm_lang$core$Debug$log, 'login', user);
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
 							_elm_lang$core$Native_Utils.update(
@@ -72066,18 +72057,15 @@
 								}
 							}));
 				case 'OnLocationChange':
-					var newRoute = A2(
-						_elm_lang$core$Debug$log,
-						'newRoute',
-						_user$project$Routing$parseLocation(_p7._0));
+					var newRoute = _user$project$Routing$parseLocation(_p7._0);
 					var newModel = _elm_lang$core$Native_Utils.update(
 						model,
 						{route: newRoute});
-					var _p12 = newRoute;
-					if (_p12.ctor === 'GameRoute') {
-						var _p13 = _user$project$Game_State$init(_p12._0);
-						var game = _p13._0;
-						var gameCmd = _p13._1;
+					var _p11 = newRoute;
+					if (_p11.ctor === 'GameRoute') {
+						var _p12 = _user$project$Game_State$init(_p11._0);
+						var game = _p12._0;
+						var gameCmd = _p12._1;
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
 							_elm_lang$core$Native_Utils.update(
@@ -72100,9 +72088,9 @@
 		});
 	var _user$project$Edice$updateWrapper = F2(
 		function (msg, model) {
-			var _p14 = A2(_user$project$Edice$update, msg, model);
-			var model_ = _p14._0;
-			var cmd = _p14._1;
+			var _p13 = A2(_user$project$Edice$update, msg, model);
+			var model_ = _p13._0;
+			var cmd = _p13._1;
 			return {ctor: '_Tuple2', _0: model_, _1: cmd};
 		});
 	var _user$project$Edice$hide = _elm_lang$core$Native_Platform.outgoingPort(
@@ -72112,17 +72100,17 @@
 		});
 	var _user$project$Edice$init = function (location) {
 		var backend = _user$project$Backend$init;
-		var _p15 = _user$project$Editor_Editor$init;
-		var editor = _p15._0;
-		var editorCmd = _p15._1;
+		var _p14 = _user$project$Editor_Editor$init;
+		var editor = _p14._0;
+		var editorCmd = _p14._1;
 		var route = _user$project$Routing$parseLocation(location);
-		var _p16 = _user$project$Game_State$init(
+		var _p15 = _user$project$Game_State$init(
 			A2(
 				_elm_lang$core$Maybe$withDefault,
 				_user$project$Tables$Melchor,
 				_user$project$Edice$currentTable(route)));
-		var game = _p16._0;
-		var gameCmd = _p16._1;
+		var game = _p15._0;
+		var gameCmd = _p15._1;
 		var cmds = _elm_lang$core$Platform_Cmd$batch(
 			{
 				ctor: '::',
@@ -72133,19 +72121,11 @@
 					_1: {
 						ctor: '::',
 						_0: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Types$EditorMsg, editorCmd),
-						_1: {
-							ctor: '::',
-							_0: _user$project$Backend$connect,
-							_1: {ctor: '[]'}
-						}
+						_1: {ctor: '[]'}
 					}
 				}
 			});
 		var model = A6(_user$project$Types$Model, route, _debois$elm_mdl$Material$model, game, editor, backend, _user$project$Types$Anonymous);
-		var _p17 = A2(
-			_elm_lang$core$Debug$log,
-			'init',
-			{ctor: '_Tuple2', _0: route, _1: location});
 		return {ctor: '_Tuple2', _0: model, _1: cmds};
 	};
 	var _user$project$Edice$onLogin = _elm_lang$core$Native_Platform.incomingPort(
