@@ -79,6 +79,14 @@
 	  return false; // let built in handler log it too
 	};
 
+	if (true) {
+	  // document.styleSheets[0].insertRule('body:before { content: ""; display: block; height: 16px; background: blue }');
+	  var fragment = document.createElement('div');
+	  fragment.style.height = '16px';
+	  fragment.style.background = '#2196f3';
+	  document.body.insertBefore(fragment, document.body.childNodes[0]);
+	}
+
 	__webpack_require__(2)(function(profile) {
 	  app.ports.onLogin.send([profile.email || '', profile.name || '', profile.picture || '']);
 	});
