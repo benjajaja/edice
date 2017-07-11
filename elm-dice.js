@@ -55662,6 +55662,86 @@
 	var _elm_lang$core$Platform$ProcessId = {ctor: 'ProcessId'};
 	var _elm_lang$core$Platform$Router = {ctor: 'Router'};
 
+	var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode = _elm_lang$core$Json_Decode$succeed;
+	var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$resolve = _elm_lang$core$Json_Decode$andThen(_elm_lang$core$Basics$identity);
+	var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom = _elm_lang$core$Json_Decode$map2(
+		F2(
+			function (x, y) {
+				return y(x);
+			}));
+	var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded = function (_p0) {
+		return _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom(
+			_elm_lang$core$Json_Decode$succeed(_p0));
+	};
+	var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalDecoder = F3(
+		function (pathDecoder, valDecoder, fallback) {
+			var nullOr = function (decoder) {
+				return _elm_lang$core$Json_Decode$oneOf(
+					{
+						ctor: '::',
+						_0: decoder,
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$core$Json_Decode$null(fallback),
+							_1: {ctor: '[]'}
+						}
+					});
+			};
+			var handleResult = function (input) {
+				var _p1 = A2(_elm_lang$core$Json_Decode$decodeValue, pathDecoder, input);
+				if (_p1.ctor === 'Ok') {
+					var _p2 = A2(
+						_elm_lang$core$Json_Decode$decodeValue,
+						nullOr(valDecoder),
+						_p1._0);
+					if (_p2.ctor === 'Ok') {
+						return _elm_lang$core$Json_Decode$succeed(_p2._0);
+					} else {
+						return _elm_lang$core$Json_Decode$fail(_p2._0);
+					}
+				} else {
+					return _elm_lang$core$Json_Decode$succeed(fallback);
+				}
+			};
+			return A2(_elm_lang$core$Json_Decode$andThen, handleResult, _elm_lang$core$Json_Decode$value);
+		});
+	var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalAt = F4(
+		function (path, valDecoder, fallback, decoder) {
+			return A2(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
+				A3(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalDecoder,
+					A2(_elm_lang$core$Json_Decode$at, path, _elm_lang$core$Json_Decode$value),
+					valDecoder,
+					fallback),
+				decoder);
+		});
+	var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional = F4(
+		function (key, valDecoder, fallback, decoder) {
+			return A2(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
+				A3(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalDecoder,
+					A2(_elm_lang$core$Json_Decode$field, key, _elm_lang$core$Json_Decode$value),
+					valDecoder,
+					fallback),
+				decoder);
+		});
+	var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$requiredAt = F3(
+		function (path, valDecoder, decoder) {
+			return A2(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
+				A2(_elm_lang$core$Json_Decode$at, path, valDecoder),
+				decoder);
+		});
+	var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required = F3(
+		function (key, valDecoder, decoder) {
+			return A2(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
+				A2(_elm_lang$core$Json_Decode$field, key, valDecoder),
+				decoder);
+		});
+
 	var _Voronchuk$hexagons$Hexagons_Hex$intS = function (a) {
 		var _p0 = a;
 		switch (_p0.ctor) {
@@ -68896,311 +68976,6 @@
 		}
 	};
 
-	var _user$project$Backend_Types$Model = F4(
-		function (a, b, c, d) {
-			return {clientId: a, subscribed: b, status: c, chatLog: d};
-		});
-	var _user$project$Backend_Types$Joined = function (a) {
-		return {ctor: 'Joined', _0: a};
-	};
-	var _user$project$Backend_Types$JoinTable = function (a) {
-		return {ctor: 'JoinTable', _0: a};
-	};
-	var _user$project$Backend_Types$UnknownTopicMessage = F3(
-		function (a, b, c) {
-			return {ctor: 'UnknownTopicMessage', _0: a, _1: b, _2: c};
-		});
-	var _user$project$Backend_Types$TableMsg = F2(
-		function (a, b) {
-			return {ctor: 'TableMsg', _0: a, _1: b};
-		});
-	var _user$project$Backend_Types$AllClientsMsg = function (a) {
-		return {ctor: 'AllClientsMsg', _0: a};
-	};
-	var _user$project$Backend_Types$ClientMsg = function (a) {
-		return {ctor: 'ClientMsg', _0: a};
-	};
-	var _user$project$Backend_Types$Subscribed = function (a) {
-		return {ctor: 'Subscribed', _0: a};
-	};
-	var _user$project$Backend_Types$StatusOffline = function (a) {
-		return {ctor: 'StatusOffline', _0: a};
-	};
-	var _user$project$Backend_Types$StatusReconnect = function (a) {
-		return {ctor: 'StatusReconnect', _0: a};
-	};
-	var _user$project$Backend_Types$StatusConnect = function (a) {
-		return {ctor: 'StatusConnect', _0: a};
-	};
-	var _user$project$Backend_Types$Connected = function (a) {
-		return {ctor: 'Connected', _0: a};
-	};
-	var _user$project$Backend_Types$LogChat = F2(
-		function (a, b) {
-			return {ctor: 'LogChat', _0: a, _1: b};
-		});
-	var _user$project$Backend_Types$LogLeave = function (a) {
-		return {ctor: 'LogLeave', _0: a};
-	};
-	var _user$project$Backend_Types$LogJoin = function (a) {
-		return {ctor: 'LogJoin', _0: a};
-	};
-	var _user$project$Backend_Types$Tables = F2(
-		function (a, b) {
-			return {ctor: 'Tables', _0: a, _1: b};
-		});
-	var _user$project$Backend_Types$Presence = {ctor: 'Presence'};
-	var _user$project$Backend_Types$AllClients = {ctor: 'AllClients'};
-	var _user$project$Backend_Types$Client = function (a) {
-		return {ctor: 'Client', _0: a};
-	};
-	var _user$project$Backend_Types$Broadcast = {ctor: 'Broadcast'};
-	var _user$project$Backend_Types$ServerDirection = {ctor: 'ServerDirection'};
-	var _user$project$Backend_Types$ClientDirection = {ctor: 'ClientDirection'};
-	var _user$project$Backend_Types$Online = {ctor: 'Online'};
-	var _user$project$Backend_Types$Reconnecting = function (a) {
-		return {ctor: 'Reconnecting', _0: a};
-	};
-	var _user$project$Backend_Types$Connecting = {ctor: 'Connecting'};
-	var _user$project$Backend_Types$Offline = {ctor: 'Offline'};
-	var _user$project$Backend_Types$None = {ctor: 'None'};
-	var _user$project$Backend_Types$PresentYourself = {ctor: 'PresentYourself'};
-	var _user$project$Backend_Types$Leave = function (a) {
-		return {ctor: 'Leave', _0: a};
-	};
-	var _user$project$Backend_Types$Chat = F2(
-		function (a, b) {
-			return {ctor: 'Chat', _0: a, _1: b};
-		});
-	var _user$project$Backend_Types$Join = function (a) {
-		return {ctor: 'Join', _0: a};
-	};
-
-	var _user$project$Backend_Decoding$a = 'a';
-
-	var _user$project$Backend_MessageCodification$encodeDirection = function (direction) {
-		var _p0 = direction;
-		switch (_p0.ctor) {
-			case 'ClientDirection':
-				return 'clients';
-			case 'ServerDirection':
-				return 'server';
-			default:
-				return 'broadcast';
-		}
-	};
-	var _user$project$Backend_MessageCodification$encodeTopic = function (topic) {
-		var _p1 = topic;
-		switch (_p1.ctor) {
-			case 'AllClients':
-				return 'clients';
-			case 'Client':
-				return A2(_elm_lang$core$Basics_ops['++'], 'clients/', _p1._0);
-			case 'Presence':
-				return 'presence';
-			default:
-				return A2(
-					_elm_lang$core$Basics_ops['++'],
-					'tables/',
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						_elm_lang$core$Basics$toString(_p1._0),
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							'/',
-							_user$project$Backend_MessageCodification$encodeDirection(_p1._1))));
-		}
-	};
-	var _user$project$Backend_MessageCodification$encodeTopicMessage = function (msg) {
-		var _p2 = msg;
-		if (_p2.ctor === 'TableMsg') {
-			return {
-				ctor: '_Tuple2',
-				_0: _user$project$Backend_MessageCodification$encodeTopic(
-					A2(_user$project$Backend_Types$Tables, _p2._0, _user$project$Backend_Types$Broadcast)),
-				_1: A2(
-					_elm_lang$core$Json_Encode$encode,
-					2,
-					function () {
-						var _p3 = _p2._1;
-						switch (_p3.ctor) {
-							case 'Chat':
-								return _elm_lang$core$Json_Encode$object(
-									{
-										ctor: '::',
-										_0: {
-											ctor: '_Tuple2',
-											_0: 'type',
-											_1: _elm_lang$core$Json_Encode$string('chat')
-										},
-										_1: {
-											ctor: '::',
-											_0: {
-												ctor: '_Tuple2',
-												_0: 'user',
-												_1: _elm_lang$core$Json_Encode$string(_p3._0)
-											},
-											_1: {
-												ctor: '::',
-												_0: {
-													ctor: '_Tuple2',
-													_0: 'message',
-													_1: _elm_lang$core$Json_Encode$string(_p3._1)
-												},
-												_1: {ctor: '[]'}
-											}
-										}
-									});
-							case 'Join':
-								return _elm_lang$core$Json_Encode$object(
-									{
-										ctor: '::',
-										_0: {
-											ctor: '_Tuple2',
-											_0: 'type',
-											_1: _elm_lang$core$Json_Encode$string('join')
-										},
-										_1: {
-											ctor: '::',
-											_0: {
-												ctor: '_Tuple2',
-												_0: 'user',
-												_1: _elm_lang$core$Json_Encode$string(_p3._0)
-											},
-											_1: {ctor: '[]'}
-										}
-									});
-							default:
-								return _elm_lang$core$Json_Encode$object(
-									{
-										ctor: '::',
-										_0: {
-											ctor: '_Tuple2',
-											_0: 'type',
-											_1: _elm_lang$core$Json_Encode$string('leave')
-										},
-										_1: {
-											ctor: '::',
-											_0: {
-												ctor: '_Tuple2',
-												_0: 'user',
-												_1: _elm_lang$core$Json_Encode$string(_p3._0)
-											},
-											_1: {ctor: '[]'}
-										}
-									});
-						}
-					}())
-			};
-		} else {
-			return _elm_lang$core$Native_Utils.crashCase(
-				'Backend.MessageCodification',
-				{
-					start: {line: 80, column: 5},
-					end: {line: 106, column: 60}
-				},
-				_p2)(
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'cannot send ',
-					_elm_lang$core$Basics$toString(msg)));
-		}
-	};
-	var _user$project$Backend_MessageCodification$decodeTableMessage = F2(
-		function (table, message) {
-			var _p5 = A2(
-				_elm_lang$core$Json_Decode$decodeString,
-				A2(_elm_lang$core$Json_Decode$field, 'type', _elm_lang$core$Json_Decode$string),
-				message);
-			if (_p5.ctor === 'Err') {
-				return _elm_lang$core$Result$Err(_p5._0);
-			} else {
-				var _p10 = _p5._0;
-				var _p6 = _p10;
-				switch (_p6) {
-					case 'chat':
-						var _p7 = A2(
-							_elm_lang$core$Json_Decode$decodeString,
-							A3(
-								_elm_lang$core$Json_Decode$map2,
-								F2(
-									function (v0, v1) {
-										return {ctor: '_Tuple2', _0: v0, _1: v1};
-									}),
-								A2(_elm_lang$core$Json_Decode$field, 'user', _elm_lang$core$Json_Decode$string),
-								A2(_elm_lang$core$Json_Decode$field, 'message', _elm_lang$core$Json_Decode$string)),
-							message);
-						if (_p7.ctor === 'Ok') {
-							return _elm_lang$core$Result$Ok(
-								A2(
-									_user$project$Backend_Types$TableMsg,
-									table,
-									A2(_elm_lang$core$Basics$uncurry, _user$project$Backend_Types$Chat, _p7._0)));
-						} else {
-							return _elm_lang$core$Result$Err(_p7._0);
-						}
-					case 'join':
-						var _p8 = A2(
-							_elm_lang$core$Json_Decode$decodeString,
-							A2(_elm_lang$core$Json_Decode$field, 'user', _elm_lang$core$Json_Decode$string),
-							message);
-						if (_p8.ctor === 'Ok') {
-							return _elm_lang$core$Result$Ok(
-								A2(
-									_user$project$Backend_Types$TableMsg,
-									table,
-									_user$project$Backend_Types$Join(_p8._0)));
-						} else {
-							return _elm_lang$core$Result$Err(_p8._0);
-						}
-					case 'leave':
-						var _p9 = A2(
-							_elm_lang$core$Json_Decode$decodeString,
-							A2(_elm_lang$core$Json_Decode$field, 'user', _elm_lang$core$Json_Decode$string),
-							message);
-						if (_p9.ctor === 'Ok') {
-							return _elm_lang$core$Result$Ok(
-								A2(
-									_user$project$Backend_Types$TableMsg,
-									table,
-									_user$project$Backend_Types$Leave(_p9._0)));
-						} else {
-							return _elm_lang$core$Result$Err(_p9._0);
-						}
-					default:
-						return _elm_lang$core$Result$Err(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'unknown type \"',
-								A2(_elm_lang$core$Basics_ops['++'], _p10, '\"')));
-				}
-			}
-		});
-	var _user$project$Backend_MessageCodification$decodeTopicMessage = F2(
-		function (topic, message) {
-			var _p11 = topic;
-			switch (_p11.ctor) {
-				case 'Client':
-					return _elm_lang$core$Result$Err('not implemented');
-				case 'AllClients':
-					var _p12 = message;
-					if (_p12 === 'present') {
-						return _elm_lang$core$Result$Ok(
-							_user$project$Backend_Types$AllClientsMsg(_user$project$Backend_Types$PresentYourself));
-					} else {
-						return _elm_lang$core$Result$Err('not impl');
-					}
-				case 'Tables':
-					return A2(_user$project$Backend_MessageCodification$decodeTableMessage, _p11._0, message);
-				default:
-					return _elm_lang$core$Result$Err('not impl');
-			}
-		});
-	var _user$project$Backend_MessageCodification$ChatMessage = F2(
-		function (a, b) {
-			return {username: a, message: b};
-		});
-
 	var _user$project$Hex$cellCubicCoords = function (hex) {
 		return {
 			ctor: '_Tuple3',
@@ -70345,6 +70120,9 @@
 		function (a, b) {
 			return {name: a, color: b};
 		});
+	var _user$project$Game_Types$TableStatus = function (a) {
+		return {players: a};
+	};
 	var _user$project$Game_Types$ClearChat = {ctor: 'ClearChat'};
 	var _user$project$Game_Types$SendChat = function (a) {
 		return {ctor: 'SendChat', _0: a};
@@ -70361,6 +70139,338 @@
 	var _user$project$Game_Types$Finished = {ctor: 'Finished'};
 	var _user$project$Game_Types$Playing = {ctor: 'Playing'};
 	var _user$project$Game_Types$Paused = {ctor: 'Paused'};
+
+	var _user$project$Backend_Types$Model = F4(
+		function (a, b, c, d) {
+			return {clientId: a, subscribed: b, status: c, chatLog: d};
+		});
+	var _user$project$Backend_Types$Joined = function (a) {
+		return {ctor: 'Joined', _0: a};
+	};
+	var _user$project$Backend_Types$JoinTable = function (a) {
+		return {ctor: 'JoinTable', _0: a};
+	};
+	var _user$project$Backend_Types$UnknownTopicMessage = F3(
+		function (a, b, c) {
+			return {ctor: 'UnknownTopicMessage', _0: a, _1: b, _2: c};
+		});
+	var _user$project$Backend_Types$TableMsg = F2(
+		function (a, b) {
+			return {ctor: 'TableMsg', _0: a, _1: b};
+		});
+	var _user$project$Backend_Types$AllClientsMsg = function (a) {
+		return {ctor: 'AllClientsMsg', _0: a};
+	};
+	var _user$project$Backend_Types$ClientMsg = function (a) {
+		return {ctor: 'ClientMsg', _0: a};
+	};
+	var _user$project$Backend_Types$Subscribed = function (a) {
+		return {ctor: 'Subscribed', _0: a};
+	};
+	var _user$project$Backend_Types$StatusOffline = function (a) {
+		return {ctor: 'StatusOffline', _0: a};
+	};
+	var _user$project$Backend_Types$StatusReconnect = function (a) {
+		return {ctor: 'StatusReconnect', _0: a};
+	};
+	var _user$project$Backend_Types$StatusConnect = function (a) {
+		return {ctor: 'StatusConnect', _0: a};
+	};
+	var _user$project$Backend_Types$Connected = function (a) {
+		return {ctor: 'Connected', _0: a};
+	};
+	var _user$project$Backend_Types$LogChat = F2(
+		function (a, b) {
+			return {ctor: 'LogChat', _0: a, _1: b};
+		});
+	var _user$project$Backend_Types$LogLeave = function (a) {
+		return {ctor: 'LogLeave', _0: a};
+	};
+	var _user$project$Backend_Types$LogJoin = function (a) {
+		return {ctor: 'LogJoin', _0: a};
+	};
+	var _user$project$Backend_Types$Tables = F2(
+		function (a, b) {
+			return {ctor: 'Tables', _0: a, _1: b};
+		});
+	var _user$project$Backend_Types$Presence = {ctor: 'Presence'};
+	var _user$project$Backend_Types$AllClients = {ctor: 'AllClients'};
+	var _user$project$Backend_Types$Client = function (a) {
+		return {ctor: 'Client', _0: a};
+	};
+	var _user$project$Backend_Types$Broadcast = {ctor: 'Broadcast'};
+	var _user$project$Backend_Types$ServerDirection = {ctor: 'ServerDirection'};
+	var _user$project$Backend_Types$ClientDirection = {ctor: 'ClientDirection'};
+	var _user$project$Backend_Types$Online = {ctor: 'Online'};
+	var _user$project$Backend_Types$Reconnecting = function (a) {
+		return {ctor: 'Reconnecting', _0: a};
+	};
+	var _user$project$Backend_Types$Connecting = {ctor: 'Connecting'};
+	var _user$project$Backend_Types$Offline = {ctor: 'Offline'};
+	var _user$project$Backend_Types$None = {ctor: 'None'};
+	var _user$project$Backend_Types$PresentYourself = {ctor: 'PresentYourself'};
+	var _user$project$Backend_Types$Leave = function (a) {
+		return {ctor: 'Leave', _0: a};
+	};
+	var _user$project$Backend_Types$Chat = F2(
+		function (a, b) {
+			return {ctor: 'Chat', _0: a, _1: b};
+		});
+	var _user$project$Backend_Types$Join = function (a) {
+		return {ctor: 'Join', _0: a};
+	};
+
+	var _user$project$Backend_Decoding$colorDecoder = A2(_elm_lang$core$Json_Decode$map, _user$project$Land$playerColor, _elm_lang$core$Json_Decode$int);
+	var _user$project$Backend_Decoding$playersDecoder = A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'color',
+		_user$project$Backend_Decoding$colorDecoder,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'name',
+			_elm_lang$core$Json_Decode$string,
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Types$Player)));
+	var _user$project$Backend_Decoding$tableDecoder = A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'players',
+		_elm_lang$core$Json_Decode$list(_user$project$Backend_Decoding$playersDecoder),
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Game_Types$TableStatus));
+
+	var _user$project$Backend_Encoding$playerEncoder = function (user) {
+		return _elm_lang$core$Json_Encode$object(
+			{
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'name',
+					_1: _elm_lang$core$Json_Encode$string(user.name)
+				},
+				_1: {ctor: '[]'}
+			});
+	};
+
+	var _user$project$Backend_MessageCodification$encodeDirection = function (direction) {
+		var _p0 = direction;
+		switch (_p0.ctor) {
+			case 'ClientDirection':
+				return 'clients';
+			case 'ServerDirection':
+				return 'server';
+			default:
+				return 'broadcast';
+		}
+	};
+	var _user$project$Backend_MessageCodification$encodeTopic = function (topic) {
+		var _p1 = topic;
+		switch (_p1.ctor) {
+			case 'AllClients':
+				return 'clients';
+			case 'Client':
+				return A2(_elm_lang$core$Basics_ops['++'], 'clients/', _p1._0);
+			case 'Presence':
+				return 'presence';
+			default:
+				return A2(
+					_elm_lang$core$Basics_ops['++'],
+					'tables/',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_elm_lang$core$Basics$toString(_p1._0),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'/',
+							_user$project$Backend_MessageCodification$encodeDirection(_p1._1))));
+		}
+	};
+	var _user$project$Backend_MessageCodification$encodeTopicMessage = function (msg) {
+		var _p2 = msg;
+		if (_p2.ctor === 'TableMsg') {
+			return {
+				ctor: '_Tuple2',
+				_0: _user$project$Backend_MessageCodification$encodeTopic(
+					A2(_user$project$Backend_Types$Tables, _p2._0, _user$project$Backend_Types$Broadcast)),
+				_1: A2(
+					_elm_lang$core$Json_Encode$encode,
+					2,
+					function () {
+						var _p3 = _p2._1;
+						switch (_p3.ctor) {
+							case 'Chat':
+								return _elm_lang$core$Json_Encode$object(
+									{
+										ctor: '::',
+										_0: {
+											ctor: '_Tuple2',
+											_0: 'type',
+											_1: _elm_lang$core$Json_Encode$string('chat')
+										},
+										_1: {
+											ctor: '::',
+											_0: {
+												ctor: '_Tuple2',
+												_0: 'user',
+												_1: _elm_lang$core$Json_Encode$string(_p3._0)
+											},
+											_1: {
+												ctor: '::',
+												_0: {
+													ctor: '_Tuple2',
+													_0: 'message',
+													_1: _elm_lang$core$Json_Encode$string(_p3._1)
+												},
+												_1: {ctor: '[]'}
+											}
+										}
+									});
+							case 'Join':
+								return _elm_lang$core$Json_Encode$object(
+									{
+										ctor: '::',
+										_0: {
+											ctor: '_Tuple2',
+											_0: 'type',
+											_1: _elm_lang$core$Json_Encode$string('join')
+										},
+										_1: {
+											ctor: '::',
+											_0: {
+												ctor: '_Tuple2',
+												_0: 'user',
+												_1: _elm_lang$core$Json_Encode$string(_p3._0)
+											},
+											_1: {ctor: '[]'}
+										}
+									});
+							default:
+								return _elm_lang$core$Json_Encode$object(
+									{
+										ctor: '::',
+										_0: {
+											ctor: '_Tuple2',
+											_0: 'type',
+											_1: _elm_lang$core$Json_Encode$string('leave')
+										},
+										_1: {
+											ctor: '::',
+											_0: {
+												ctor: '_Tuple2',
+												_0: 'user',
+												_1: _elm_lang$core$Json_Encode$string(_p3._0)
+											},
+											_1: {ctor: '[]'}
+										}
+									});
+						}
+					}())
+			};
+		} else {
+			return _elm_lang$core$Native_Utils.crashCase(
+				'Backend.MessageCodification',
+				{
+					start: {line: 80, column: 5},
+					end: {line: 106, column: 60}
+				},
+				_p2)(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'cannot send ',
+					_elm_lang$core$Basics$toString(msg)));
+		}
+	};
+	var _user$project$Backend_MessageCodification$decodeTableMessage = F2(
+		function (table, message) {
+			var _p5 = A2(
+				_elm_lang$core$Json_Decode$decodeString,
+				A2(_elm_lang$core$Json_Decode$field, 'type', _elm_lang$core$Json_Decode$string),
+				message);
+			if (_p5.ctor === 'Err') {
+				return _elm_lang$core$Result$Err(_p5._0);
+			} else {
+				var _p10 = _p5._0;
+				var _p6 = _p10;
+				switch (_p6) {
+					case 'chat':
+						var _p7 = A2(
+							_elm_lang$core$Json_Decode$decodeString,
+							A3(
+								_elm_lang$core$Json_Decode$map2,
+								F2(
+									function (v0, v1) {
+										return {ctor: '_Tuple2', _0: v0, _1: v1};
+									}),
+								A2(_elm_lang$core$Json_Decode$field, 'user', _elm_lang$core$Json_Decode$string),
+								A2(_elm_lang$core$Json_Decode$field, 'message', _elm_lang$core$Json_Decode$string)),
+							message);
+						if (_p7.ctor === 'Ok') {
+							return _elm_lang$core$Result$Ok(
+								A2(
+									_user$project$Backend_Types$TableMsg,
+									table,
+									A2(_elm_lang$core$Basics$uncurry, _user$project$Backend_Types$Chat, _p7._0)));
+						} else {
+							return _elm_lang$core$Result$Err(_p7._0);
+						}
+					case 'join':
+						var _p8 = A2(
+							_elm_lang$core$Json_Decode$decodeString,
+							A2(_elm_lang$core$Json_Decode$field, 'user', _elm_lang$core$Json_Decode$string),
+							message);
+						if (_p8.ctor === 'Ok') {
+							return _elm_lang$core$Result$Ok(
+								A2(
+									_user$project$Backend_Types$TableMsg,
+									table,
+									_user$project$Backend_Types$Join(_p8._0)));
+						} else {
+							return _elm_lang$core$Result$Err(_p8._0);
+						}
+					case 'leave':
+						var _p9 = A2(
+							_elm_lang$core$Json_Decode$decodeString,
+							A2(_elm_lang$core$Json_Decode$field, 'user', _elm_lang$core$Json_Decode$string),
+							message);
+						if (_p9.ctor === 'Ok') {
+							return _elm_lang$core$Result$Ok(
+								A2(
+									_user$project$Backend_Types$TableMsg,
+									table,
+									_user$project$Backend_Types$Leave(_p9._0)));
+						} else {
+							return _elm_lang$core$Result$Err(_p9._0);
+						}
+					default:
+						return _elm_lang$core$Result$Err(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'unknown type \"',
+								A2(_elm_lang$core$Basics_ops['++'], _p10, '\"')));
+				}
+			}
+		});
+	var _user$project$Backend_MessageCodification$decodeTopicMessage = F2(
+		function (topic, message) {
+			var _p11 = topic;
+			switch (_p11.ctor) {
+				case 'Client':
+					return _elm_lang$core$Result$Err('not implemented');
+				case 'AllClients':
+					var _p12 = message;
+					if (_p12 === 'present') {
+						return _elm_lang$core$Result$Ok(
+							_user$project$Backend_Types$AllClientsMsg(_user$project$Backend_Types$PresentYourself));
+					} else {
+						return _elm_lang$core$Result$Err('not impl');
+					}
+				case 'Tables':
+					return A2(_user$project$Backend_MessageCodification$decodeTableMessage, _p11._0, message);
+				default:
+					return _elm_lang$core$Result$Err('not impl');
+			}
+		});
+	var _user$project$Backend_MessageCodification$ChatMessage = F2(
+		function (a, b) {
+			return {username: a, message: b};
+		});
 
 	var _user$project$Editor_Types$Model = F4(
 		function (a, b, c, d) {
@@ -70551,17 +70661,31 @@
 				}
 			}
 		});
-	var _user$project$Backend$joinTable = function (table) {
-		var request = A3(
-			_elm_lang$http$Http$post,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'http://localhost:8080/tables/',
-				_elm_lang$core$Basics$toString(table)),
-			_elm_lang$http$Http$emptyBody,
-			_elm_lang$core$Json_Decode$string);
-		return A2(_elm_lang$http$Http$send, _user$project$Backend_Types$Joined, request);
-	};
+	var _user$project$Backend$joinTable = F2(
+		function (user, table) {
+			var request = A3(
+				_elm_lang$http$Http$post,
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'http://localhost:8080/tables/',
+					_elm_lang$core$Basics$toString(table)),
+				_elm_lang$http$Http$jsonBody(
+					_user$project$Backend_Encoding$playerEncoder(
+						A2(
+							_user$project$Game_Types$Player,
+							function () {
+								var _p16 = user;
+								if (_p16.ctor === 'Anonymous') {
+									return 'Anonymous';
+								} else {
+									return _p16._0.name;
+								}
+							}(),
+							_user$project$Land$Neutral))),
+				_user$project$Backend_Decoding$tableDecoder);
+			var _p17 = A2(_elm_lang$core$Debug$log, 'joinTable Backend.elm', user);
+			return A2(_elm_lang$http$Http$send, _user$project$Backend_Types$Joined, request);
+		});
 	var _user$project$Backend$init = function (table) {
 		return {
 			ctor: '_Tuple2',
@@ -70625,37 +70749,37 @@
 			{
 				ctor: '::',
 				_0: _user$project$Backend$mqttOnConnect(
-					function (_p16) {
+					function (_p18) {
 						return _user$project$Types$BckMsg(
-							_user$project$Backend_Types$StatusConnect(_p16));
+							_user$project$Backend_Types$StatusConnect(_p18));
 					}),
 				_1: {
 					ctor: '::',
 					_0: _user$project$Backend$mqttOnReconnect(
-						function (_p17) {
+						function (_p19) {
 							return _user$project$Types$BckMsg(
-								_user$project$Backend_Types$StatusReconnect(_p17));
+								_user$project$Backend_Types$StatusReconnect(_p19));
 						}),
 					_1: {
 						ctor: '::',
 						_0: _user$project$Backend$mqttOnConnected(
-							function (_p18) {
+							function (_p20) {
 								return _user$project$Types$BckMsg(
-									_user$project$Backend_Types$Connected(_p18));
+									_user$project$Backend_Types$Connected(_p20));
 							}),
 						_1: {
 							ctor: '::',
 							_0: _user$project$Backend$mqttOnSubscribed(
-								function (_p19) {
+								function (_p21) {
 									return _user$project$Types$BckMsg(
-										A2(_user$project$Backend$decodeSubscribed, model.backend.clientId, _p19));
+										A2(_user$project$Backend$decodeSubscribed, model.backend.clientId, _p21));
 								}),
 							_1: {
 								ctor: '::',
 								_0: _user$project$Backend$mqttOnMessage(
-									function (_p20) {
+									function (_p22) {
 										return _user$project$Types$BckMsg(
-											A2(_user$project$Backend$decodeMessage, model.backend.clientId, _p20));
+											A2(_user$project$Backend$decodeMessage, model.backend.clientId, _p22));
 									}),
 								_1: {ctor: '[]'}
 							}
@@ -70696,16 +70820,16 @@
 		});
 	var _user$project$Backend$update = F2(
 		function (msg, model) {
-			var _p21 = A2(_elm_lang$core$Debug$log, 'Backend Msg', msg);
-			switch (_p21.ctor) {
+			var _p23 = A2(_elm_lang$core$Debug$log, 'Backend Msg', msg);
+			switch (_p23.ctor) {
 				case 'UnknownTopicMessage':
-					var _p22 = A2(
+					var _p24 = A2(
 						_elm_lang$core$Debug$log,
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'Error in message: \"',
-							A2(_elm_lang$core$Basics_ops['++'], _p21._0, '\"')),
-						_p21._1);
+							A2(_elm_lang$core$Basics_ops['++'], _p23._0, '\"')),
+						_p23._1);
 					return A2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
 						model,
@@ -70720,7 +70844,7 @@
 						_elm_lang$core$Platform_Cmd_ops['!'],
 						A2(
 							_user$project$Backend$setStatus,
-							_user$project$Backend_Types$Reconnecting(_p21._0),
+							_user$project$Backend_Types$Reconnecting(_p23._0),
 							model),
 						{ctor: '[]'});
 				case 'StatusOffline':
@@ -70729,7 +70853,7 @@
 						A2(_user$project$Backend$setStatus, _user$project$Backend_Types$Offline, model),
 						{ctor: '[]'});
 				case 'Connected':
-					var _p23 = _p21._0;
+					var _p25 = _p23._0;
 					var backend = model.backend;
 					return A2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
@@ -70742,13 +70866,13 @@
 									backend: _elm_lang$core$Native_Utils.update(
 										backend,
 										{
-											clientId: _elm_lang$core$Maybe$Just(_p23)
+											clientId: _elm_lang$core$Maybe$Just(_p25)
 										})
 								})),
 						{
 							ctor: '::',
 							_0: _user$project$Backend$subscribe(
-								_user$project$Backend_Types$Client(_p23)),
+								_user$project$Backend_Types$Client(_p25)),
 							_1: {
 								ctor: '::',
 								_0: _user$project$Backend$subscribe(_user$project$Backend_Types$AllClients),
@@ -70756,16 +70880,16 @@
 							}
 						});
 				case 'Subscribed':
-					var _p28 = _p21._0;
-					var _p24 = model.backend.clientId;
-					if (_p24.ctor === 'Nothing') {
+					var _p30 = _p23._0;
+					var _p26 = model.backend.clientId;
+					if (_p26.ctor === 'Nothing') {
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
 							model,
 							{ctor: '[]'});
 					} else {
 						var backend = model.backend;
-						var subscribed = {ctor: '::', _0: _p28, _1: backend.subscribed};
+						var subscribed = {ctor: '::', _0: _p30, _1: backend.subscribed};
 						return {
 							ctor: '_Tuple2',
 							_0: _elm_lang$core$Native_Utils.update(
@@ -70780,7 +70904,7 @@
 									_user$project$Backend$hasDuplexSubscribed,
 									{
 										ctor: '::',
-										_0: _user$project$Backend_Types$Client(_p24._0),
+										_0: _user$project$Backend_Types$Client(_p26._0),
 										_1: {
 											ctor: '::',
 											_0: _user$project$Backend_Types$AllClients,
@@ -70788,7 +70912,7 @@
 										}
 									},
 									subscribed,
-									_p28)) {
+									_p30)) {
 									return _elm_lang$core$Platform_Cmd$batch(
 										{
 											ctor: '::',
@@ -70807,30 +70931,30 @@
 											}
 										});
 								} else {
-									var _p25 = _p28;
-									if (_p25.ctor === 'Tables') {
-										var _p27 = _p25._0;
+									var _p27 = _p30;
+									if (_p27.ctor === 'Tables') {
+										var _p29 = _p27._0;
 										if (A3(
 											_user$project$Backend$hasDuplexSubscribed,
 											{
 												ctor: '::',
-												_0: A2(_user$project$Backend_Types$Tables, _p27, _user$project$Backend_Types$ClientDirection),
+												_0: A2(_user$project$Backend_Types$Tables, _p29, _user$project$Backend_Types$ClientDirection),
 												_1: {
 													ctor: '::',
-													_0: A2(_user$project$Backend_Types$Tables, _p27, _user$project$Backend_Types$ServerDirection),
+													_0: A2(_user$project$Backend_Types$Tables, _p29, _user$project$Backend_Types$ServerDirection),
 													_1: {ctor: '[]'}
 												}
 											},
 											subscribed,
-											_p28)) {
+											_p30)) {
 											return _user$project$Backend$publish(
 												A2(
 													_user$project$Backend_Types$TableMsg,
-													_p27,
+													_p29,
 													_user$project$Backend_Types$Join(
 														_user$project$Types$getUsername(model))));
 										} else {
-											var _p26 = A2(_elm_lang$core$Debug$log, 'not duplex table yet', subscribed);
+											var _p28 = A2(_elm_lang$core$Debug$log, 'not duplex table yet', subscribed);
 											return _elm_lang$core$Platform_Cmd$none;
 										}
 									} else {
@@ -70851,23 +70975,23 @@
 						model,
 						{ctor: '[]'});
 				case 'TableMsg':
-					var _p29 = _p21._1;
-					switch (_p29.ctor) {
+					var _p31 = _p23._1;
+					switch (_p31.ctor) {
 						case 'Join':
 							return A2(
 								_user$project$Backend$updateBackendChatLog,
 								model,
-								_user$project$Backend_Types$LogJoin(_p29._0));
+								_user$project$Backend_Types$LogJoin(_p31._0));
 						case 'Leave':
 							return A2(
 								_user$project$Backend$updateBackendChatLog,
 								model,
-								_user$project$Backend_Types$LogLeave(_p29._0));
+								_user$project$Backend_Types$LogLeave(_p31._0));
 						default:
 							return A2(
 								_user$project$Backend$updateBackendChatLog,
 								model,
-								A2(_user$project$Backend_Types$LogChat, _p29._0, _p29._1));
+								A2(_user$project$Backend_Types$LogChat, _p31._0, _p31._1));
 					}
 				case 'JoinTable':
 					return A2(
@@ -70878,14 +71002,20 @@
 							_0: A2(
 								_elm_lang$core$Platform_Cmd$map,
 								_user$project$Types$BckMsg,
-								_user$project$Backend$joinTable(_p21._0)),
+								A2(_user$project$Backend$joinTable, model.user, _p23._0)),
 							_1: {ctor: '[]'}
 						});
 				default:
-					if (_p21._0.ctor === 'Ok') {
+					if (_p23._0.ctor === 'Ok') {
+						var game = model.game;
+						var game_ = _elm_lang$core$Native_Utils.update(
+							game,
+							{players: _p23._0._0.players});
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
-							model,
+							_elm_lang$core$Native_Utils.update(
+								model,
+								{game: game_}),
 							{ctor: '[]'});
 					} else {
 						return A2(
@@ -71241,13 +71371,6 @@
 		} else {
 			return _user$project$Types$NotFoundRoute;
 		}
-	};
-
-	var _user$project$State$joinTable = function (table) {
-		return A2(
-			_elm_lang$core$Platform_Cmd$map,
-			_user$project$Types$BckMsg,
-			_user$project$Backend$joinTable(table));
 	};
 
 	var _user$project$Maps_Melchor$map = '\n〿　　🔥　🔥　　　　　😺😺\n🍋🍋🍋🔥🔥🔥　　　　😺😺😺\n〿🍋🍋🍋🔥🔥　　　　　😺😺🐵\n　🍋🍋🔥🔥😃😃　　　　😺😺🐵\n〿　🍋💩💩🔥😃😃　🐙🐙😺😺🐵🐵　🚩\n　　💩💩💩😃😃😃🐙🐙🐙😺😺🐵🐵🚩🚩🚩🚩\n〿　　💩💩😃😃😃😃🐙🐙🐙😺🐵🐵🐵🚩🚩🚩🚩\n　　　　　　😃😃🐙🐙🐙🐙😺🐵　🚩🚩🚩\n〿　　　　　　🐸🐸🐙🐸🍺🍺🐵🐵　🚩🚩🚩\n　　　　　　　🐸🐸🐸🍺🍺🍺🌵🌵🚩🚩🚬\n〿　　　　　　🐸🐸🐸🐸🍺🍺🌵🌵🌵🚩🚬🚬\n　　　　　　　🐸🐸🍺🍺🍺🌵🌵🌵🚬🚬🚬🚬🚶\n〿　　　　　　　　　🍺🍺🌵🌵🌵🌵🚬🚬　　🚶\n　　　　　　　　　🍺🍺　🌵🌵🌵🚶🚶🚶🚶🚶\n〿　　　　　　　　　　　　　　　🚶🚶🚶🚶🚶\n　　　　　　　　　　　　　　　　🚶🚶🚶\n';
@@ -71858,11 +71981,7 @@
 			_1: {
 				ctor: '::',
 				_0: mapCmd,
-				_1: {
-					ctor: '::',
-					_0: _user$project$State$joinTable(table),
-					_1: {ctor: '[]'}
-				}
+				_1: {ctor: '[]'}
 			}
 		};
 	};
@@ -72209,6 +72328,24 @@
 				_1: {ctor: '[]'}
 			});
 	};
+	var _user$project$Game_View$playerChip = F2(
+		function (model, player) {
+			return A2(
+				_debois$elm_mdl$Material_Chip$span,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_debois$elm_mdl$Material_Chip$content,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(player.name),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				});
+		});
 	var _user$project$Game_View$playButtons = function (mdl) {
 		return {
 			ctor: '::',
@@ -72335,11 +72472,21 @@
 					_0: A2(_elm_lang$html$Html$map, _user$project$Types$GameMsg, board),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Game_View$boardHistory(model),
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							A2(
+								_elm_lang$core$List$map,
+								_user$project$Game_View$playerChip(model),
+								model.game.players)),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Game_View$footer(model),
-							_1: {ctor: '[]'}
+							_0: _user$project$Game_View$boardHistory(model),
+							_1: {
+								ctor: '::',
+								_0: _user$project$Game_View$footer(model),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}
@@ -72915,7 +73062,14 @@
 							_elm_lang$core$Native_Utils.update(
 								model,
 								{user: user}),
-							{ctor: '[]'});
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$core$Platform_Cmd$map,
+									_user$project$Types$BckMsg,
+									A2(_user$project$Backend$joinTable, user, model.game.table)),
+								_1: {ctor: '[]'}
+							});
 					} else {
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
@@ -72952,7 +73106,12 @@
 						{route: newRoute});
 					var _p11 = newRoute;
 					if (_p11.ctor === 'GameRoute') {
-						var _p12 = _user$project$Game_State$init(_p11._0);
+						var _p13 = _p11._0;
+						var joinCmd = A2(
+							_elm_lang$core$Platform_Cmd$map,
+							_user$project$Types$BckMsg,
+							A2(_user$project$Backend$joinTable, model.user, _p13));
+						var _p12 = _user$project$Game_State$init(_p13);
 						var game = _p12._0;
 						var gameCmds = _p12._1;
 						return A2(
@@ -72960,7 +73119,7 @@
 							_elm_lang$core$Native_Utils.update(
 								newModel,
 								{game: game}),
-							gameCmds);
+							{ctor: '::', _0: joinCmd, _1: gameCmds});
 					} else {
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
@@ -72973,9 +73132,9 @@
 		});
 	var _user$project$Edice$updateWrapper = F2(
 		function (msg, model) {
-			var _p13 = A2(_user$project$Edice$update, msg, model);
-			var model_ = _p13._0;
-			var cmd = _p13._1;
+			var _p14 = A2(_user$project$Edice$update, msg, model);
+			var model_ = _p14._0;
+			var cmd = _p14._1;
 			return {ctor: '_Tuple2', _0: model_, _1: cmd};
 		});
 	var _user$project$Edice$hide = _elm_lang$core$Native_Platform.outgoingPort(
@@ -72984,20 +73143,20 @@
 			return v;
 		});
 	var _user$project$Edice$init = function (location) {
-		var _p14 = _user$project$Editor_Editor$init;
-		var editor = _p14._0;
-		var editorCmd = _p14._1;
+		var _p15 = _user$project$Editor_Editor$init;
+		var editor = _p15._0;
+		var editorCmd = _p15._1;
 		var route = _user$project$Routing$parseLocation(location);
 		var table = A2(
 			_elm_lang$core$Maybe$withDefault,
 			_user$project$Tables$Melchor,
 			_user$project$Edice$currentTable(route));
-		var _p15 = _user$project$Game_State$init(table);
-		var game = _p15._0;
-		var gameCmds = _p15._1;
-		var _p16 = _user$project$Backend$init(table);
-		var backend = _p16._0;
-		var backendCmd = _p16._1;
+		var _p16 = _user$project$Game_State$init(table);
+		var game = _p16._0;
+		var gameCmds = _p16._1;
+		var _p17 = _user$project$Backend$init(table);
+		var backend = _p17._0;
+		var backendCmd = _p17._1;
 		var cmds = _elm_lang$core$Platform_Cmd$batch(
 			A2(
 				_elm_lang$core$List$append,
