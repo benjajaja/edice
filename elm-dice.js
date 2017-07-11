@@ -70,7 +70,7 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+	/* WEBPACK VAR INJECTION */(function(FastClick, global) {'use strict';
 
 	window.onerror = function(messageOrEvent, source, lineno, colno, error) {
 	  var element = document.createElement('div');
@@ -87,11 +87,13 @@
 	  // mobile app
 	  document.body.classList.add('navigator-standalone');
 	  document.addEventListener('contextmenu', function (event) { event.preventDefault(); });
+	  var viewportmeta = document.querySelector('meta[name="viewport"]');
+	  viewportmeta.content = 'user-scalable=NO, width=device-width, initial-scale=1.0'
 	}
 
 	var fastclick = __webpack_require__(2);
 	document.addEventListener('DOMContentLoaded', function() {
-	  fastclick.attach(document.body);
+	  FastClick.attach(document.body);
 	}, false);
 
 	__webpack_require__(3)(function(profile) {
@@ -203,7 +205,7 @@
 
 	global.edice = app;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), (function() { return this; }())))
 
 /***/ },
 /* 2 */
